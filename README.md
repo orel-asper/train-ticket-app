@@ -25,27 +25,27 @@ It uses the dagre library to perform the layout of the graph.
 ### [](#header-3) About the application
 
 root --
-      | -- src
-            | -- components
-                | -- ReactFlow
-                    | -- Flow.tsx
-                | -- Filter.tsx
-                | -- Footer.tsx
-                | -- NavBar.tsx
-                | -- NodeElementLabel.tsx     
-            | -- hooks
-                | -- useFlowGraph.tsx
-                | -- useGetFilteredData.tsx
-            | -- services 
-                | -- train_data.ts
-            | -- interfaces
-                | -- global.ts
-            | -- utils
-                | -- calc_filtered_data.ts
-                | -- calc_layout.ts
-                | -- constant.ts
-            | -- App.tsx
-            | -- index.tsx
+######| -- src
+############| -- components
+####################| -- ReactFlow
+####################| -- Flow.tsx
+################| -- Filter.tsx
+################| -- Footer.tsx
+################| -- NavBar.tsx
+################| -- NodeElementLabel.tsx     
+############| -- hooks
+################| -- useFlowGraph.tsx
+################| -- useGetFilteredData.tsx
+############| -- services 
+################| -- train_data.ts
+############| -- interfaces
+################| -- global.ts
+############| -- utils
+################| -- calc_filtered_data.ts
+################| -- calc_layout.ts
+################| -- constant.ts
+############| -- App.tsx
+############| -- index.tsx
       
 short description of each file:
 
@@ -104,8 +104,9 @@ calc_filtered_data file:
 
 ### [](#header-3) Notes
 
-- Custom edge was added to the train_data to connect the a node with a prop of publicExposed=true to a Sink node. 
+- Custom edge was added to the train_data to connect the node with a prop of publicExposed=true to a Sink node. 
 This was done to test the functionality of the filter.
+
 ### [](#header-3) Final thoughts
 
 wasn't easy to acieve but I'm happy with the result. I learned a lot about graph visualization and graph algorithms. I'm looking forward to hearing your feedback.
