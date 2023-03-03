@@ -102,7 +102,10 @@ calc_filtered_data file:
 
 - findRoutes: Finds all possible routes between a set of starting nodes and a set of ending nodes, using a breadth-first search algorithm.
 
+### [](#header-3) Notes
 
+- Custom edge was added to the train_data to connect the a node with a prop of publicExposed=true to a Sink node. 
+This was done to test the functionality of the filter.
 ### [](#header-3) Final thoughts
 
 wasn't easy to acieve but I'm happy with the result. I learned a lot about graph visualization and graph algorithms. I'm looking forward to hearing your feedback.
