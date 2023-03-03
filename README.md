@@ -25,27 +25,27 @@ It uses the dagre library to perform the layout of the graph.
 ### [](#header-3) About the application
 
 root --
-######| -- src </br>
-############| -- components</br>
-####################| -- ReactFlow</br>
-####################| -- Flow.tsx</br>
-################| -- Filter.tsx</br>
-################| -- Footer.tsx</br>
-################| -- NavBar.tsx</br>
-################| -- NodeElementLabel.tsx  </br>   
-############| -- hooks</br>
-################| -- useFlowGraph.tsx</br>
-################| -- useGetFilteredData.tsx</br>
-############| -- services </br>
-################| -- train_data.ts</br>
-############| -- interfaces</br>
-################| -- global.ts</br>
-############| -- utils</br>
-################| -- calc_filtered_data.ts</br>
-################| -- calc_layout.ts</br>
-################| -- constant.ts</br>
-############| -- App.tsx</br>
-############| -- index.tsx</br>
+      | -- src </br>
+            | -- components</br>
+                    | -- ReactFlow</br>
+                    | -- Flow.tsx</br>
+                | -- Filter.tsx</br>
+                | -- Footer.tsx</br>
+                | -- NavBar.tsx</br>
+                | -- NodeElementLabel.tsx</br>   
+            | -- hooks</br>
+                | -- useFlowGraph.tsx</br>
+                | -- useGetFilteredData.tsx</br>
+            | -- services </br>
+                | -- train_data.ts</br>
+            | -- interfaces</br>
+                | -- global.ts</br>
+            | -- utils</br>
+                | -- calc_filtered_data.ts</br>
+                | -- calc_layout.ts</br>
+                | -- constant.ts</br>
+            | -- App.tsx</br>
+            | -- index.tsx</br>
       
 short description of each file:
 
