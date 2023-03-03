@@ -4,7 +4,7 @@ const NavBar: React.FC = () => {
     return (
         <nav className="navbar">
             <div className="navbar-brand">
-                <a className="navbar-item" href="#">
+                <a className="navbar-item" href="http://localhost:3000/">
                     Train Ticket App
                 </a>
             </div>

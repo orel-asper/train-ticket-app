@@ -1,46 +1,25 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### [](#header-3)The following are the steps to build the application:
 
-## Available Scripts
+1. Create a React App
+2. Implement a basic page template with a header, footer, toolbar, and a main page
+3. Load the provided JSON file that represents the Train Ticket micro-services graph
+4. Choose a graph library and use it to show the entire graph on the main page
+5. Use the "language" attribute of each node to display nodes in different colors or shapes based on their language
+6. Identify and visually indicate services with vulnerabilities
+7. Implement filtering options to show routes that meet certain criteria, such as ending in a Sink, having vulnerabilities, or starting in a public service and ending in a Sink
+8. Implement basic query functionality on top of the graph to allow users to interact with the data and get more information about services and routes
+9. Write a README file that explains your decisions and assumptions in developing the solution
+10. Submit the completed project as a TypeScript git repo.
 
-In the project directory, you can run:
+### [](#header-3) Graph Visualizer
+Graph Visualizer is a React application that allows users to visualize directed acyclic graphs. 
+It uses the dagre library to perform the layout of the graph.
 
-### `npm start`
+### [](#header-3) Installation
+1. Clone the repository
+2. Run `npm install` to install the dependencies
+3. Run `npm start` to start the application
+4. Navigate to `http://localhost:3000/` to view the application
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+### [](#header-3) About the application

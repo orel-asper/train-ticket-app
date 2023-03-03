@@ -6,8 +6,8 @@ import ReactFlow, {
   //interfaces
   Edge,
   Node,
-  ConnectionLineType,
 } from 'reactflow';
+import { GRAY } from '../../utils/constant';
 // ------- test code -------
 import train_data from '../../services/train_data'
 import useFlowGraph from '../../hooks/useFlowGraph';
@@ -30,7 +30,6 @@ const Flow: React.FC = () => {
     onConnect,
   } = useFlowGraph(train_data as any);
 
-
   const edgesWithUpdatedTypes: Edge[] = edges.map((edge: Edge) => {
     if (edge.sourceHandle) {
       const edgeSourceNode: Node = nodes?.find((node: Node) => node.id === edge.source) as Node;
@@ -40,7 +39,6 @@ const Flow: React.FC = () => {
 
     return edge;
   });
-
 
   return (
     <div className="flow">
@@ -56,11 +54,10 @@ const Flow: React.FC = () => {
       >
         <MiniMap style={minimapStyle} zoomable pannable />
         <Controls />
-        <Background color="#aaa" gap={16} />
+        <Background color={GRAY} gap={16} />
       </ReactFlow>
     </div>
   );
 };
-
 
 export default Flow;
