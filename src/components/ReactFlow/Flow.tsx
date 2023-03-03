@@ -16,7 +16,7 @@ const Flow: React.FC<{ data: any }> = ({ data }) => {
     onNodesChange,
     onEdgesChange,
     onConnect,
-  } = useFlowGraph(data as any);
+  } = useFlowGraph(data);
 
   return (
     <div className="flow">

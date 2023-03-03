@@ -7,11 +7,12 @@ import {
     FilteredData,
 } from "../interfaces/global";
 import {
-    findStartingNodes,
+    findEndingSinkNodes,
     findVulnerableNodes,
     findPublicExposedNodes,
     traverseGraph,
     removeDuplicates,
+    findRoutes,
 } from "../utils/calc_filtered_data";
 
 const useGetFilteredData = (Filter: FilterType) => {
@@ -30,7 +31,7 @@ const useGetFilteredData = (Filter: FilterType) => {
 
     useEffect(() => {
         if (Filter === FilterType.KIND) {
-            const startingNodes = findStartingNodes(
+            const startingNodes = findEndingSinkNodes(
                 train_data.nodes as NodeData[],
                 train_data.edges as EdgeData[]
             );
@@ -41,10 +42,13 @@ const useGetFilteredData = (Filter: FilterType) => {
             );
             setFilteredData(getFilteredData(vulnerableNodes));
         } else if (Filter === FilterType.PUBLIC_EXPOSED) {
-            const publicExposedNodes = findPublicExposedNodes(
-                train_data.nodes as NodeData[]
+            const publicExposedNodes = findRoutes(
+                findPublicExposedNodes(train_data.nodes as NodeData[]),
+                findEndingSinkNodes(train_data.nodes as NodeData[], train_data.edges as EdgeData[]),
+                train_data.nodes as NodeData[],
+                train_data.edges as EdgeData[]
             );
-            setFilteredData(getFilteredData(publicExposedNodes));
+            setFilteredData(publicExposedNodes);
         } else if (Filter === FilterType.ALL) {
             setFilteredData(train_data as FilteredData);
         }

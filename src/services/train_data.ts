@@ -584,6 +584,13 @@ export default {
                 "order-service",
                 "contacts-service"
             ]
-        }
+        },
+        // i added this fake edge to because there are no routes that start in a public service ( "publicExposed": true ) and ends in Sink.
+        {
+            "from": "train-service",
+            "to": [
+                "prod-sqs"
+            ]
+        },
     ]
 }

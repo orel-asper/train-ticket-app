@@ -23,3 +23,86 @@ It uses the dagre library to perform the layout of the graph.
 4. Navigate to `http://localhost:3000/` to view the application
 
 ### [](#header-3) About the application
+
+root --
+      | -- src
+            | -- components
+                | -- ReactFlow
+                    | -- Flow.tsx
+                | -- Filter.tsx
+                | -- Footer.tsx
+                | -- NavBar.tsx
+                | -- NodeElementLabel.tsx     
+            | -- hooks
+                | -- useFlowGraph.tsx
+                | -- useGetFilteredData.tsx
+            | -- services 
+                | -- train_data.ts
+            | -- interfaces
+                | -- global.ts
+            | -- utils
+                | -- calc_filtered_data.ts
+                | -- calc_layout.ts
+                | -- constant.ts
+            | -- App.tsx
+            | -- index.tsx
+      
+short description of each file:
+
+* Flow.tsx: React component responsible for rendering the main graph and handling user interactions.
+
+* Filter.tsx: React component responsible for rendering the filter section where users can filter the nodes in the graph based on certain criteria.
+
+* Footer.tsx: React component responsible for rendering the footer section of the app.
+
+* NavBar.tsx: React component responsible for rendering the navigation bar at the top of the app.
+
+* NodeElementLabel.tsx: React component responsible for rendering the label of a node in the graph.
+
+* useFlowGraph.tsx: Custom React hook that encapsulates the logic for creating and updating the nodes and edges in the graph.
+
+* useGetFilteredData.tsx: Custom React hook that encapsulates the logic for filtering the data based on user input.
+
+* train_data.ts: Service file that contains the data used to populate the graph.
+
+* global.ts: Interface file that defines the types used throughout the app.
+
+* calc_filtered_data.ts: Utility functions responsible for filtering the data based on user input.
+
+* calc_layout.ts: Utility functions responsible for calculating the layout of the nodes in the graph.
+
+* constant.ts: File that contains constant values used throughout the app.
+
+* App.tsx: Main React component that renders the entire app.
+
+* index.tsx: Entry point of the app.
+
+
+### [](#header-3) Explenation on the hard parts
+
+calc_filtered_data file:
+
+- findEndingSinkNodes: Finds all nodes that are of type 'sqs' or 'rds' and have no outgoing edges.
+
+- findVulnerableNodes: Finds all nodes that have a property named 'vulnerabilities'.
+
+- findPublicExposedNodes: Finds all nodes that have the boolean property 'publicExposed' set to true.
+
+- findIncomingEdgesToNodes: Finds all edges that connect to a set of target nodes.
+
+- findSourceNodesOfEdges: Given a set of edges, finds all nodes that are the source of the edges.
+
+- findOutboundEdgesFromNodes: Finds all edges that originate from a set of source nodes.
+
+- findTargetNodesOfEdges: Given a set of edges, finds all nodes that are the target of the edges.
+
+- removeDuplicates: Removes duplicates from a set of nodes and edges.
+
+- traverseGraph: Traverses a graph starting from a set of starting nodes, following incoming and outgoing edges to discover new nodes, until there are no more incoming or outgoing edges.
+
+- findRoutes: Finds all possible routes between a set of starting nodes and a set of ending nodes, using a breadth-first search algorithm.
+
+
+### [](#header-3) Final thoughts
+
+wasn't easy to acieve but I'm happy with the result. I learned a lot about graph visualization and graph algorithms. I'm looking forward to hearing your feedback.

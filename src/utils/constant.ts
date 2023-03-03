@@ -1,7 +1,9 @@
 import { Colors } from "../interfaces/global";
 
 export const minimapStyle = {
-    height: 120,
+    height: 100,
+    border: "1px solid #a9a9a9",
+    borderRadius: 4,
 };
 
 export const colors: Colors = {
