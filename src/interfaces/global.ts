@@ -2,8 +2,6 @@ import {
     Node,
     Edge,
 } from 'reactflow';
-import { Interface } from 'readline';
-
 interface Vulnerability {
     file: string;
     severity: string;
