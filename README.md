@@ -24,7 +24,7 @@ It uses the dagre library to perform the layout of the graph.
 
 ### [](#header-3) About the application
 
-root --
+root--|</br>
 ******| -- src </br>
 ************| -- components</br>
 ********************| -- ReactFlow</br>
