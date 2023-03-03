@@ -1,5 +1,9 @@
 import { Colors } from "../interfaces/global";
 
+export const minimapStyle = {
+    height: 120,
+};
+
 export const colors: Colors = {
     javascript: "#f0db4f",
     typescript: "#007acc",
@@ -16,8 +20,8 @@ export const colors: Colors = {
     default: "#000000"
 };
 
-export const nodeWidth = window.innerWidth / 6;
-export const nodeHeight = window.innerHeight / 5;
+export const nodeWidth = 180;
+export const nodeHeight = window.innerHeight / 8;
 
 export const GRAY = "#d3d3d3";
 export const LIGHT_GRAY = "#f5f5f5";

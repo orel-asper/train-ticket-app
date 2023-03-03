@@ -3,52 +3,29 @@ import ReactFlow, {
   MiniMap,
   Controls,
   Background,
-  //interfaces
-  Edge,
-  Node,
 } from 'reactflow';
-import { GRAY } from '../../utils/constant';
-// ------- test code -------
-import train_data from '../../services/train_data'
+import { GRAY, minimapStyle } from '../../utils/constant';
 import useFlowGraph from '../../hooks/useFlowGraph';
-// ------- test code -------
 import 'reactflow/dist/style.css';
 import './flow.css';
 
-const minimapStyle = {
-  height: 120,
-};
-
-const onInit = (reactFlowInstance: any) => console.log('flow loaded:', reactFlowInstance);
-
-const Flow: React.FC = () => {
+const Flow: React.FC<{ data: any }> = ({ data }) => {
   const {
     nodes,
     edges,
     onNodesChange,
     onEdgesChange,
     onConnect,
-  } = useFlowGraph(train_data as any);
-
-  const edgesWithUpdatedTypes: Edge[] = edges.map((edge: Edge) => {
-    if (edge.sourceHandle) {
-      const edgeSourceNode: Node = nodes?.find((node: Node) => node.id === edge.source) as Node;
-      const edgeType: string = edgeSourceNode?.data?.selects[edge.sourceHandle];
-      edge.type = edgeType;
-    }
-
-    return edge;
-  });
+  } = useFlowGraph(data as any);
 
   return (
     <div className="flow">
       <ReactFlow
         nodes={nodes}
-        edges={edgesWithUpdatedTypes}
+        edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
-        onInit={onInit}
         fitView
         attributionPosition="top-right"
       >

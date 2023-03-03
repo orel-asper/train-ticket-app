@@ -1,93 +1,145 @@
 import { useEffect, useState } from "react";
 import train_data from "../services/train_data";
-import { NodeData, EdgeData } from "../interfaces/global";
+import { NodeData, EdgeData, FilterType, FilteredData } from "../interfaces/global";
 
+const findStartingNodes = (nodes: NodeData[], edges: EdgeData[]): NodeData[] => {
+    return nodes.filter((node) => (node.kind === 'sqs' || node.kind === 'rds') && !edges.some((edge) => edge.to === node.name));
+};
 
-const useGetFilteredData = (Filter: string) => {
-    const [filteredData, setFilteredData] = useState<any>(null);
+const findVulnerableNodes = (nodes: NodeData[]): NodeData[] => {
+    return nodes.filter((node) => node.hasOwnProperty('vulnerabilities'));
+};
 
-    const filterData = (data: { nodes: NodeData[]; edges: EdgeData[]; }) => {
-        const { nodes, edges } = data;
+const findPublicExposedNodes = (nodes: NodeData[]): NodeData[] => {
+    return nodes.filter((node) => node.publicExposed);
+};
 
-        // Find the starting node(s) that match the filter
-        const startingNodes = nodes.filter((node) => node.kind === Filter && !edges.some((edge) => edge.to === node.name));
-        console.log('1:startingNodes - ', startingNodes)
+const findIncomingEdgesToNodes = (nodes: NodeData[], edges: EdgeData[], targetNodes: NodeData[]): EdgeData[] => {
+    return edges.filter((edge) => {
+        const targetNames = targetNodes.map((node) => node.name);
+        return typeof edge.to === 'string'
+            ? targetNames.includes(edge.to)
+            : edge.to.some((to) => targetNames.includes(to));
+    });
+};
 
-        let filteredNodes: NodeData[] = [];
-        let filteredEdges: EdgeData[] = [];
+const findSourceNodesOfEdges = (nodes: NodeData[], edges: EdgeData[]): NodeData[] => {
+    const sourceNodes: NodeData[] = [];
+    edges.forEach((edge) => {
+        const sourceNode = nodes.find((node) => node.name === edge.from);
+        if (sourceNode) {
+            sourceNodes.push(sourceNode);
+        }
+    });
+    return sourceNodes;
+};
 
-        // vulnerability: if the starting node is not found, the filteredNodes and filteredEdges will be empty
-        const vulnerability = nodes.filter((node) => node.hasOwnProperty('vulnerabilities'));
-        console.log('2:vulnerability - ', vulnerability)
+const traverseGraph = (startingNode: NodeData[], nodes: NodeData[], edges: EdgeData[]): { nodes: NodeData[]; edges: EdgeData[] } => {
+    let currentNode: NodeData[] = startingNode;
+    let nodePath: NodeData[] = [];
 
-        // Traverse the graph backwards from each starting node to the root node
-        startingNodes.forEach((startingNode) => {
-            let currentNode: NodeData[] = [startingNode];
-            let nodePath: NodeData[] = [];
+    while (currentNode.length > 0) {
+        // Add the current node(s) to the nodePath
+        nodePath.push(...currentNode);
 
-            while (currentNode.length > 0) {
-                // Add the current node(s) to the nodePath
-                nodePath.push(...currentNode);
+        // Find the incoming edges to the current node(s)
+        const incomingEdges = findIncomingEdgesToNodes(nodes, edges, currentNode);
 
-                // Find the incoming edges to the current node(s)
-                const incomingEdges = edges.filter((edge) => (
-                    typeof edge.to === 'string' ? currentNode.some((node) => node.name === edge.to) : edge.to.some((to) => currentNode.some((node) => node.name === to))
-                ));
+        if (incomingEdges.length > 0) {
+            // Find the source nodes of the incoming edges
+            const sourceNodes = findSourceNodesOfEdges(nodes, incomingEdges);
 
-                console.log('3:incomingEdges - ', incomingEdges)
-
-                if (incomingEdges.length > 0) {
-                    // Find the source nodes of the incoming edges
-                    const sourceNodes: NodeData[] = [];
-                    incomingEdges.forEach((edge) => {
-                        //@ts-ignore
-                        return sourceNodes.push(nodes.find((node) => node.name === edge.from));
-                    });
-                    console.log('4:sourceNodes - ', sourceNodes)
-
-                    if (sourceNodes.length > 0) {
-                        // Move to the source nodes and continue traversal
-                        currentNode = sourceNodes;
-                    } else {
-                        // Source nodes not found, stop traversal
-                        break;
-                    }
-                } else {
-                    // No incoming edges, stop traversal
-                    break;
-                }
+            if (sourceNodes.length > 0) {
+                // Move to the source nodes and continue traversal
+                currentNode = sourceNodes;
+            } else {
+                // Source nodes not found, stop traversal
+                break;
             }
+        } else {
+            // No incoming edges, stop traversal
+            break;
+        }
+    }
 
-            // Reverse the nodePath to get the correct order
-            nodePath.reverse();
+    // Reverse the nodePath to get the correct order
+    nodePath.reverse();
 
-            // Add the nodes and edges in the nodePath to the filtered arrays
-            filteredNodes.push(...nodePath);
-            filteredEdges.push(
-                ...nodePath.slice(0, -1).map((node, i) => {
-                    return {
-                        source: node.id,
-                        target: nodePath[i + 1].id,
-                        from: node.name,
-                        to: nodePath[i + 1].name,
-                    };
-                })
-            );
-        });
+    const edgePath = train_data.edges as EdgeData[];
 
-        console.log('5:filteredNodes - ', filteredNodes)
-        return [filteredNodes, filteredEdges];
-    };
+    return { nodes: nodePath, edges: edgePath };
+};
 
+const removeDuplicates = (nodes: NodeData[], edges: EdgeData[]): { nodes: NodeData[]; edges: EdgeData[] } => {
+    const uniqueNodes: NodeData[] = [];
+    const uniqueEdges: EdgeData[] = [];
+
+    nodes.filter((node) => {
+        if (!uniqueNodes.some((uniqueNode) => uniqueNode.name === node.name)) {
+            uniqueNodes.push(node);
+        }
+    });
+
+    edges.filter((edge) => {
+        if (
+            !uniqueEdges.some(
+                (uniqueEdge) =>
+                    (uniqueEdge.from === edge.from && uniqueEdge.to === edge.to) ||
+                    (uniqueEdge.from === edge.to && uniqueEdge.to === edge.from)
+            )
+        ) {
+            uniqueEdges.push(edge);
+        }
+    });
+    const uniqueData: FilteredData = { nodes: uniqueNodes, edges: uniqueEdges };
+    return uniqueData;
+};
+
+const useGetFilteredData = (Filter: FilterType) => {
+    const [filteredData, setFilteredData] = useState<any>(null);
 
 
     useEffect(() => {
-        if (Filter) {
-            const [filteredNodes, filteredEdges] = filterData(train_data as any);
-            setFilteredData([filteredNodes, filteredEdges]);
+        if (Filter === FilterType.KIND) {
+            const startingNodes = findStartingNodes(
+                train_data.nodes as NodeData[],
+                train_data.edges as EdgeData[],
+            );
+
+            const { nodes, edges } = traverseGraph(
+                startingNodes,
+                train_data.nodes as NodeData[],
+                train_data.edges as EdgeData[]
+            );
+
+            const filteredData: FilteredData = { nodes, edges };
+            setFilteredData(removeDuplicates(filteredData.nodes, filteredData.edges));
+        } else if (Filter === FilterType.VULNERABILITIES) {
+            const vulnerableNodes = findVulnerableNodes(train_data.nodes as NodeData[]);
+
+            const { nodes, edges } = traverseGraph(
+                vulnerableNodes,
+                train_data.nodes as NodeData[],
+                train_data.edges as EdgeData[]
+            );
+
+            const filteredData: FilteredData = { nodes, edges };
+            setFilteredData(removeDuplicates(filteredData.nodes, filteredData.edges));
+        } else if (Filter === FilterType.PUBLIC_EXPOSED) {
+            const publicExposedNodes = findPublicExposedNodes(train_data.nodes as NodeData[]);
+            const { nodes, edges } = traverseGraph(
+                publicExposedNodes,
+                train_data.nodes as NodeData[],
+                train_data.edges as EdgeData[]
+            );
+
+            const filteredData: FilteredData = { nodes, edges };
+            setFilteredData(removeDuplicates(filteredData.nodes, filteredData.edges));
+        } else if (Filter === FilterType.ALL) {
+            setFilteredData(train_data);
         }
     }, [Filter]);
-
+    console.log('filteredData', filteredData)
     return filteredData;
 }
 

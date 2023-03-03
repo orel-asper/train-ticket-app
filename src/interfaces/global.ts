@@ -2,6 +2,7 @@ import {
     Node,
     Edge,
 } from 'reactflow';
+import { Interface } from 'readline';
 
 interface Vulnerability {
     file: string;
@@ -20,6 +21,7 @@ interface NodeData {
     path: string;
     publicExposed: boolean;
     vulnerabilities?: Vulnerability[];
+    metadata?: any;
 }
 
 interface EdgeData {
@@ -59,6 +61,15 @@ interface Colors {
     [key: string]: string;
 }
 
+interface FilteredData {
+    nodes: NodeData[];
+    edges: EdgeData[];
+};
+
+interface FilterProps {
+    handleFilterClick: (activeName: FilterType) => void,
+    activeName: string
+}
 
 export type {
     Vulnerability,
@@ -67,4 +78,13 @@ export type {
     GraphData,
     FlowGraph,
     Colors,
+    FilteredData,
+    FilterProps
 };
+
+export enum FilterType {
+    KIND = 'Sink',
+    VULNERABILITIES = 'Vulnerabilities',
+    PUBLIC_EXPOSED = 'Public Exposed & Sink',
+    ALL = 'All'
+}

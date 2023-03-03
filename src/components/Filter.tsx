@@ -1,22 +1,16 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { FilterType, FilterProps } from '../interfaces/global';
 import { filterArray } from '../utils/constant';
 
-const Filter: React.FC = () => {
-    const [activeIndex, setActiveIndex] = useState<number>(0);
-
-    const handleFilterClick = (index: number) => {
-        setActiveIndex(index);
-    };
-
+const Filter: React.FC<FilterProps> = ({ handleFilterClick, activeName }) => {
     return (
         <div className="tabs is-toggle is-toggle-rounded">
             <ul>
                 {filterArray.map((filter, index) => (
                     <li
                         key={index}
-                        className={activeIndex === index ? "is-active is-size-6" : "is-size-7"}
-                        onClick={() => handleFilterClick(index)}
-                    >
+                        className={activeName === filter ? "is-active is-size-6" : "is-size-7"}
+                        onClick={() => handleFilterClick(filter as FilterType)}>
                         <a>
                             <span>{filter}</span>
                         </a>
